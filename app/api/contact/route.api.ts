@@ -41,17 +41,18 @@ async function handle(req: Request) {
   const rl = await contactLimiter.take(`ip:${clientIp(req)}`);
   if (!rl.ok) return fail(429, "rate_limited", "Too many messages. Please try again later.");
 
+  // Shaped for Web3Forms (access_key, subject, from_name, email, message). Other form services ignore the extras.
+  const accessKey = process.env.CONTACT_FORM_ACCESS_KEY;
+  const who = v.anonymous ? "Anonymous visitor" : v.name || v.email;
   const payload = {
-    message: v.message,
-    anonymous: v.anonymous,
+    ...(accessKey ? { access_key: accessKey } : {}),
+    subject: `Open Channel · ${who}`,
+    from_name: who,
     name: v.anonymous ? "" : v.name,
-    email: v.anonymous ? "" : v.email,
-    // Common form-service conventions (Formspree / Web3Forms): reply-to and subject.
-    _replyto: v.anonymous ? undefined : v.email,
-    _subject: `Open Channel${v.anonymous ? " (anonymous)" : v.name ? ` · ${v.name}` : ""}`,
-    subject: "Open Channel message",
-    source: "portfolio",
-    sentAt: new Date().toISOString(),
+    ...(v.anonymous ? {} : { email: v.email }),
+    message: v.message,
+    anonymous: v.anonymous ? "yes" : "no",
+    source: "sabsar42.github.io",
   };
 
   try {
@@ -61,8 +62,9 @@ async function handle(req: Request) {
       body: JSON.stringify(payload),
       signal: AbortSignal.timeout(10_000),
     });
-    if (!res.ok) {
-      console.error("[contact] form endpoint responded", res.status);
+    const body = (await res.json().catch(() => null)) as { success?: boolean; message?: string } | null;
+    if (!res.ok || body?.success === false) {
+      console.error("[contact] form endpoint responded", res.status, body?.message);
       return fail(502, "upstream", "The message service didn't accept it.");
     }
     return Response.json({ ok: true });

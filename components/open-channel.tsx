@@ -4,6 +4,7 @@ import { useState, type FormEvent, type KeyboardEvent } from "react";
 import { identity } from "@/lib/content";
 import { apiUrl, LOCAL_ONLY } from "@/lib/api";
 import type { ContactErrorCode } from "@/lib/contact";
+import { DIRECT_KEY, sendDirect } from "@/lib/contact-direct";
 import { ArrowRight, CheckIcon } from "./icons";
 
 type State = { kind: "idle" } | { kind: "sending" } | { kind: "sent"; anonymous: boolean } | { kind: "error"; code: ContactErrorCode; message?: string };
@@ -12,7 +13,7 @@ const MAX = 2000;
 
 /**
  * "Open Channel": a direct line to Shakib for projects, roles, consulting, or just a hello.
- * Submits to /api/contact, which forwards to the form backend configured in CONTACT_FORM_ENDPOINT.
+ * Posts straight from the browser when NEXT_PUBLIC_CONTACT_ACCESS_KEY is set (Web3Forms); otherwise via /api/contact.
  */
 export function OpenChannel({ idPrefix, className = "" }: { idPrefix: string; className?: string }) {
   const [message, setMessage] = useState("");
@@ -28,6 +29,22 @@ export function OpenChannel({ idPrefix, className = "" }: { idPrefix: string; cl
   const submit = async (e?: FormEvent) => {
     e?.preventDefault();
     if (state.kind === "sending") return;
+    // Bots fill the hidden honeypot: pretend it worked, send nothing.
+    if (website) {
+      setState({ kind: "sent", anonymous });
+      return;
+    }
+    if (DIRECT_KEY) {
+      setState({ kind: "sending" });
+      const r = await sendDirect({ message, anonymous, name, email });
+      if (r.ok) {
+        setState({ kind: "sent", anonymous });
+        setMessage("");
+      } else {
+        setState({ kind: "error", code: r.code, message: r.message });
+      }
+      return;
+    }
     if (LOCAL_ONLY) {
       setState({ kind: "error", code: "not_configured" });
       return;

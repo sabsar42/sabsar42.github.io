@@ -34,6 +34,9 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://sabsar42.github.io
           # Repository variable: your Vercel deployment URL, e.g. https://your-project.vercel.app
           NEXT_PUBLIC_API_BASE: ${{ vars.API_BASE }}
+          # Contact form posts straight from the browser (Web3Forms free plan); the key is public by design.
+          NEXT_PUBLIC_CONTACT_ACCESS_KEY: ${{ vars.CONTACT_ACCESS_KEY }}
+          NEXT_PUBLIC_CONTACT_ENDPOINT: ${{ vars.CONTACT_ENDPOINT }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
