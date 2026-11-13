@@ -166,7 +166,7 @@ function CopyAnswer({ text }: { text: string }) {
 }
 
 /** Live status: green while OpenRouter answers, amber when the native agent has taken over. */
-function StatusPill({ status }: { status: AgentStatus | null }) {
+function StatusPill({ status, lastModel }: { status: AgentStatus | null; lastModel: string | null }) {
   if (!status) {
     return <span className="font-mono text-[11px] text-faint">checking status…</span>;
   }
@@ -185,6 +185,11 @@ function StatusPill({ status }: { status: AgentStatus | null }) {
           · {status.remaining}/{status.limit} left this hour
         </span>
         {status.model && <span className="hidden sm:inline">· {modelName(status.model)}</span>}
+        {lastModel && lastModel !== status.model && (
+          <span className="hidden text-fg sm:inline" title="The model OpenRouter chose for the last answer">
+            → {modelName(lastModel)}
+          </span>
+        )}
       </span>
     );
   }
@@ -373,6 +378,7 @@ export default function AgentPanel() {
   const waitingForFirstEvent = status === "submitted" && last?.role === "user";
   const asked = new Set(messages.filter((msg) => msg.role === "user").map((msg) => textOf(msg).toLowerCase()));
   const lastTrace = last?.role === "assistant" ? traceOf(last) : null;
+  const lastModel = [...messages].reverse().map(traceOf).find((t) => t?.agent === "openrouter" && t.stage === "done")?.model ?? null;
   const suggestions = !busy && !code && lastTrace?.stage === "done" ? followUps(lastTrace.sources, asked) : [];
 
   const motionProps = reduced
@@ -424,7 +430,7 @@ export default function AgentPanel() {
                       Shakib&apos;s agent
                     </h2>
                     <div className="mt-0.5">
-                      <StatusPill status={agentStatus} />
+                      <StatusPill status={agentStatus} lastModel={lastModel} />
                     </div>
                   </div>
                 </div>

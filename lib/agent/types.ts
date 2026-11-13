@@ -21,6 +21,8 @@ export type TraceData = {
   ms?: number;
   /** OpenRouter model id that wrote the answer, e.g. "anthropic/claude-haiku-5.5". */
   model?: string;
+  /** Set when the model was chosen by OpenRouter's auto router (then `model` is the one it picked). */
+  routedFrom?: string;
   /** Who wrote the answer. */
   agent?: AgentKind;
   /** Why the native agent answered instead of OpenRouter. */

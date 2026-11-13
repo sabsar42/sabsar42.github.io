@@ -135,9 +135,11 @@ async function handle(req: Request) {
             agent,
             fallback,
             model: agent === "openrouter" ? model : undefined,
+            routedFrom: agent === "openrouter" && model === "openrouter/auto" ? model : undefined,
             ...data,
           },
         });
+      let routedModel: string | undefined;
       const TEXT = "answer";
       let opened = false;
       const delta = (text: string) => {
@@ -173,8 +175,9 @@ async function handle(req: Request) {
         const timer = setTimeout(() => abort.abort(), FIRST_TOKEN_TIMEOUT_MS);
         let gotText = false;
         let failed = false;
+        let result: ReturnType<typeof streamText> | null = null;
         try {
-          const result = streamText({
+          result = streamText({
             model: openrouter(model),
             instructions: buildSystemPrompt(context),
             messages: messages.map((m): ModelMessage => ({ role: m.role, content: m.text })),
@@ -202,6 +205,16 @@ async function handle(req: Request) {
         }
         if (req.signal.aborted) return;
 
+        // With the auto router, the model that actually answered is reported in the response.
+        if (!failed && gotText && result) {
+          try {
+            const meta = await result.response;
+            if (meta.modelId) routedModel = meta.modelId;
+          } catch {
+            /* keep the requested model name */
+          }
+        }
+
         if (failed || !gotText) {
           // Fail over: mark OpenRouter down briefly and let the native agent answer this turn.
           markOpenRouterDown();
@@ -215,7 +228,7 @@ async function handle(req: Request) {
       }
 
       if (opened) writer.write({ type: "text-end", id: TEXT });
-      trace({ stage: "done", ms: Date.now() - started });
+      trace({ stage: "done", ms: Date.now() - started, ...(routedModel ? { model: routedModel } : {}) });
       writer.write({ type: "finish" });
     },
     onError: (err) => {

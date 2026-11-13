@@ -29,8 +29,9 @@ const ROWS: Row[] = [
     domain: "ship",
     value: (
       <>
-        <span className="text-fg">Founding and early-stage AI engineering roles</span>, and{" "}
-        <span className="text-fg">client projects</span>: agentic and multimodal AI, delivered end to end.
+        <span className="text-fg">Founding and early-stage AI engineering roles</span>,{" "}
+        <span className="text-fg">consulting</span>, and <span className="text-fg">independent engagements</span>: agentic and
+        multimodal AI, delivered end to end.
       </>
     ),
     target: "clients",

@@ -1,7 +1,7 @@
 import "server-only";
 
-/** Fast, inexpensive default; override with OPENROUTER_MODEL. */
-export const DEFAULT_MODEL = "anthropic/claude-haiku-5.5";
+/** OpenRouter's auto router picks the best available model per question. Pin one with OPENROUTER_MODEL. */
+export const DEFAULT_MODEL = "openrouter/auto";
 
 export function clientIp(req: Request): string {
   const fwd = req.headers.get("x-forwarded-for");

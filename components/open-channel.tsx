@@ -79,7 +79,7 @@ export function OpenChannel({ idPrefix, className = "" }: { idPrefix: string; cl
           Have something to build? <span className="text-grad">Let&apos;s talk.</span>
         </h2>
         <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
-          He takes on client projects and is open to the right role. Describe what you need, ask a question, or just say hi.
+          He&apos;s open to consulting, independent engagements, and the right role. Describe what you need, ask a question, or just say hi.
         </p>
 
         {state.kind === "sent" ? (

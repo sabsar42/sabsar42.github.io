@@ -154,7 +154,7 @@ export function CaseStudies() {
 
       <div className="reveal mt-6 flex flex-wrap items-center justify-between gap-3 rounded-[16px] border border-line bg-raised/50 px-5 py-4">
         <p className="text-[14px] text-muted">
-          <span className="text-fg">Available for client projects.</span> Have a similar problem? He&apos;d like to hear it.
+          <span className="text-fg">Open to consulting and independent engagements.</span> Have a similar problem? He&apos;d like to hear it.
         </p>
         <button type="button" onClick={focusOpenChannel} className="btn-brand inline-flex h-9 items-center rounded-full px-4 text-[13px] font-semibold">
           Start a project

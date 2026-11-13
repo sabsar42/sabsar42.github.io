@@ -3,9 +3,18 @@
 import type { FallbackReason, TraceData, TraceSource } from "@/lib/agent/types";
 import { BrandIcon } from "../brand-icon";
 
-/** Short model name for display: "anthropic/claude-haiku-5.5" → "claude-haiku-5.5". */
+/** Readable model name: "openrouter/auto" → "auto router", "anthropic/claude-haiku-5.5" → "claude-haiku-5.5". */
 export function modelName(id?: string) {
-  return id ? (id.split("/").pop() ?? id) : null;
+  if (!id) return null;
+  if (id === "openrouter/auto") return "auto router";
+  return id.split("/").pop()?.replace(/:.*$/, "") ?? id;
+}
+
+/** Provider of a model id ("anthropic/claude-x" → "Anthropic"). */
+export function providerName(id?: string) {
+  const p = id?.split("/")[0];
+  if (!p || p === "openrouter") return null;
+  return p.charAt(0).toUpperCase() + p.slice(1);
 }
 
 export const FALLBACK_TEXT: Record<FallbackReason, string> = {
@@ -78,7 +87,15 @@ export function Provenance({ trace, failed }: { trace: TraceData | null; failed:
         ) : (
           <>
             <BrandIcon slug="openrouter" size={11} tint={false} />
-            via OpenRouter{model ? ` · ${model}` : ""}
+            via OpenRouter
+            {trace?.routedFrom && trace.model !== trace.routedFrom ? (
+              <>
+                {" "}· auto router → <span className="text-fg">{model}</span>
+                {providerName(trace.model) ? <span className="text-faint"> ({providerName(trace.model)})</span> : null}
+              </>
+            ) : model ? (
+              <> · {model}</>
+            ) : null}
             {secs}
           </>
         )}
@@ -94,7 +111,8 @@ export function Provenance({ trace, failed }: { trace: TraceData | null; failed:
           </li>
         ) : (
           <li>
-            3. {model ?? "The model"} wrote the answer from {trace?.context ?? "those"} facts only, through OpenRouter.
+            3. {model ?? "The model"}
+            {trace?.routedFrom ? " (picked by OpenRouter's auto router)" : ""} wrote the answer from {trace?.context ?? "those"} facts only, through OpenRouter.
           </li>
         )}
       </ol>

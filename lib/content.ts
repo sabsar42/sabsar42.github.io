@@ -71,9 +71,9 @@ export const identity = {
     "geospatial AI",
   ],
   statement: "I build agentic and multimodal AI systems that ship.",
-  /** Roles per CLAUDE.md; client work added by Shakib on 2026-11-13. */
-  availability: "Open to founding and early-stage AI engineering roles, and available for client projects",
-  availabilityShort: "open to roles and client projects",
+  /** Roles per CLAUDE.md; wording updated by Shakib on 2026-11-13. */
+  availability: "Open to founding and early-stage AI engineering roles, consulting, and independent engagements",
+  availabilityShort: "open to roles, consulting and independent work",
   now: "Building multi-agent geospatial pipelines with LangGraph and MCP.",
   summary:
     "AI engineer with 2+ years of experience building and shipping agentic AI systems for UK-based clients. Designs multi-agent workflows with LangGraph, LangChain, and MCP, grounded with RAG and checked by automated evaluation pipelines. Delivers end to end, from FastAPI and Docker backends to Next.js and Flutter front ends.",
@@ -895,7 +895,7 @@ export const suggestedQuestions = [
   "What agentic AI systems has he shipped?",
   "Tell me about his computer vision and medical imaging research.",
   "What is his strongest technical stack?",
-  "Is he open to roles and client work?",
+  "Is he open to consulting or independent work?",
   "How do I contact him?",
 ];
 
