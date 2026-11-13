@@ -1,11 +1,11 @@
 name: Deploy to GitHub Pages
 
-# Manual (and on pushes to dev-v01 once Pages is switched to "GitHub Actions").
+# Manual (and on pushes to main or dev-v01).
 # Pages > Build and deployment > Source must be "GitHub Actions" for the deploy step to take effect.
 on:
   workflow_dispatch:
   push:
-    branches: [dev-v01]
+    branches: [main, dev-v01]
   schedule:
     # Refresh the live GitHub / Scholar / Kaggle numbers (scheduled runs only fire on the default branch).
     - cron: "0 */12 * * *"

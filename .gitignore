@@ -12,3 +12,6 @@ next-env.d.ts
 # Contains a phone number; never commit
 Shakib_Absar_Resume.pdf
 *.pdf
+
+.vercel
+.env*
