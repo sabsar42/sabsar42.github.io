@@ -70,6 +70,8 @@ export const identity = {
     "medical imaging",
     "geospatial AI",
   ],
+  /** What the on-site AI agent is called. */
+  agentName: "rasbaris-si",
   statement: "I build agentic and multimodal AI systems that ship.",
   /** Roles per CLAUDE.md; wording updated by Shakib on 2026-11-13. */
   availability: "Open to founding and early-stage AI engineering roles, consulting, and independent engagements",

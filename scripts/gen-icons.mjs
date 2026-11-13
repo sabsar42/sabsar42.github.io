@@ -11,7 +11,7 @@ const SLUGS = [
   "opencv", "python", "typescript", "postgresql", "fastapi", "nodedotjs", "nextdotjs", "supabase", "docker", "vercel",
   "flutter", "googlegemini", "resend", "firebase", "tailwindcss", "react", "dart",
   // profiles
-  "github", "kaggle", "googlescholar", "researchgate", "youtube", "openrouter",
+  "github", "kaggle", "googlescholar", "researchgate", "youtube",
 ];
 
 const bySlug = new Map(Object.values(si).filter((x) => x && x.slug).map((x) => [x.slug, x]));

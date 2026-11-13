@@ -1,27 +1,13 @@
 "use client";
 
 import type { FallbackReason, TraceData, TraceSource } from "@/lib/agent/types";
-import { BrandIcon } from "../brand-icon";
-
-/** Readable model name: "openrouter/auto" → "auto router", "anthropic/claude-haiku-5.5" → "claude-haiku-5.5". */
-export function modelName(id?: string) {
-  if (!id) return null;
-  if (id === "openrouter/auto") return "auto router";
-  return id.split("/").pop()?.replace(/:.*$/, "") ?? id;
-}
-
-/** Provider of a model id ("anthropic/claude-x" → "Anthropic"). */
-export function providerName(id?: string) {
-  const p = id?.split("/")[0];
-  if (!p || p === "openrouter") return null;
-  return p.charAt(0).toUpperCase() + p.slice(1);
-}
+import { identity } from "@/lib/content";
 
 export const FALLBACK_TEXT: Record<FallbackReason, string> = {
-  offline: "OpenRouter is offline",
-  credits: "OpenRouter's limit is used up",
-  visitor_limit: "your hourly model limit is used",
-  model_error: "the model didn't respond",
+  offline: `${identity.agentName} is offline`,
+  credits: `${identity.agentName} is at capacity`,
+  visitor_limit: "your hourly limit is used",
+  model_error: `${identity.agentName} didn't respond`,
 };
 
 /** One live line while the agent works. Every state maps to a real server event. */
@@ -70,7 +56,6 @@ export function Sources({ sources, onSource }: { sources: TraceSource[]; onSourc
 
 /** Who answered, with the full trace one click away. */
 export function Provenance({ trace, failed }: { trace: TraceData | null; failed: boolean }) {
-  const model = modelName(trace?.model);
   const native = trace?.agent === "native";
   const secs = trace?.ms !== undefined ? ` · ${(trace.ms / 1000).toFixed(1)}s` : "";
   return (
@@ -86,16 +71,8 @@ export function Provenance({ trace, failed }: { trace: TraceData | null; failed:
           </>
         ) : (
           <>
-            <BrandIcon slug="openrouter" size={11} tint={false} />
-            via OpenRouter
-            {trace?.routedFrom && trace.model !== trace.routedFrom ? (
-              <>
-                {" "}· auto router → <span className="text-fg">{model}</span>
-                {providerName(trace.model) ? <span className="text-faint"> ({providerName(trace.model)})</span> : null}
-              </>
-            ) : model ? (
-              <> · {model}</>
-            ) : null}
+            <span aria-hidden="true" className="size-1.5 rounded-full bg-grad" />
+            {identity.agentName}
             {secs}
           </>
         )}
@@ -111,8 +88,7 @@ export function Provenance({ trace, failed }: { trace: TraceData | null; failed:
           </li>
         ) : (
           <li>
-            3. {model ?? "The model"}
-            {trace?.routedFrom ? " (picked by OpenRouter's auto router)" : ""} wrote the answer from {trace?.context ?? "those"} facts only, through OpenRouter.
+            3. {identity.agentName} wrote the answer from {trace?.context ?? "those"} facts only.
           </li>
         )}
       </ol>

@@ -19,13 +19,9 @@ export type TraceData = {
   sources: TraceSource[];
   /** Total server time in ms, set on "done". */
   ms?: number;
-  /** OpenRouter model id that wrote the answer, e.g. "anthropic/claude-haiku-5.5". */
-  model?: string;
-  /** Set when the model was chosen by OpenRouter's auto router (then `model` is the one it picked). */
-  routedFrom?: string;
   /** Who wrote the answer. */
   agent?: AgentKind;
-  /** Why the native agent answered instead of OpenRouter. */
+  /** Why the native agent answered instead of the main agent. */
   fallback?: FallbackReason;
   /** Chunks searched and chunks sent to the model (sources + always-on identity/contact). */
   searched?: number;
@@ -34,15 +30,14 @@ export type TraceData = {
 
 export type AgentUIMessage = UIMessage<never, { trace: TraceData }>;
 
-export type AgentKind = "openrouter" | "native";
+export type AgentKind = "primary" | "native";
 export type FallbackReason = "offline" | "credits" | "visitor_limit" | "model_error";
 
 /** GET /api/agent/status */
 export type AgentStatus = {
   agent: AgentKind;
   fallback?: FallbackReason;
-  model?: string;
-  /** This visitor's remaining OpenRouter messages this hour, and the cap. */
+  /** This visitor's remaining main-agent messages this hour, and the cap. */
   remaining: number;
   limit: number;
   resetAt: number;

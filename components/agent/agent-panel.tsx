@@ -18,14 +18,13 @@ import { identity, suggestedQuestions } from "@/lib/content";
 import { useReducedMotion } from "@/lib/hooks";
 import { navigateTo } from "@/lib/navigate";
 import me from "@/public/me.jpg";
-import { BrandIcon } from "../brand-icon";
 import { apiUrl, LOCAL_ONLY } from "@/lib/api";
 import { localAgentResponse } from "@/lib/agent/local";
 import { copyText } from "../copy-email";
 import { ArrowRight, ArrowUp, CheckIcon, CloseIcon, CopyIcon, ResetIcon, StopIcon } from "../icons";
 import { useSite } from "../providers";
 import { Markdown } from "./markdown";
-import { AnswerStatus, FALLBACK_TEXT, Provenance, Sources, modelName } from "./trace";
+import { AnswerStatus, FALLBACK_TEXT, Provenance, Sources } from "./trace";
 
 /* ------------------------------------------------------------------ */
 /* Wire helpers                                                        */
@@ -165,31 +164,22 @@ function CopyAnswer({ text }: { text: string }) {
   );
 }
 
-/** Live status: green while OpenRouter answers, amber when the native agent has taken over. */
-function StatusPill({ status, lastModel }: { status: AgentStatus | null; lastModel: string | null }) {
+/** Live status: green while the main agent answers, amber when the native agent has taken over. */
+function StatusPill({ status }: { status: AgentStatus | null }) {
   if (!status) {
     return <span className="font-mono text-[11px] text-faint">checking status…</span>;
   }
-  if (status.agent === "openrouter") {
+  if (status.agent === "primary") {
     return (
       <span className="inline-flex flex-wrap items-center gap-x-1.5 font-mono text-[11px] text-faint">
         <span aria-hidden="true" className="relative flex size-1.5">
           <span className="absolute inset-0 animate-ping rounded-full bg-live opacity-70 motion-reduce:hidden" />
           <span className="relative size-1.5 rounded-full bg-live" />
         </span>
-        <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-ship hover:underline">
-          <BrandIcon slug="openrouter" size={10} tint={false} />
-          OpenRouter online
-        </a>
-        <span title="Model messages you have left this hour; after that the native agent answers.">
+        <span className="text-ship">{identity.agentName} online</span>
+        <span title="Messages you have left this hour; after that the native agent answers.">
           · {status.remaining}/{status.limit} left this hour
         </span>
-        {status.model && <span className="hidden sm:inline">· {modelName(status.model)}</span>}
-        {lastModel && lastModel !== status.model && (
-          <span className="hidden text-fg sm:inline" title="The model OpenRouter chose for the last answer">
-            → {modelName(lastModel)}
-          </span>
-        )}
       </span>
     );
   }
@@ -197,7 +187,7 @@ function StatusPill({ status, lastModel }: { status: AgentStatus | null; lastMod
     <span className="inline-flex flex-wrap items-center gap-x-1.5 font-mono text-[11px] text-faint">
       <span aria-hidden="true" className="size-1.5 rounded-full bg-data" />
       <span className="text-data">Native agent</span>
-      <span>· {status.fallback ? FALLBACK_TEXT[status.fallback] : "OpenRouter unavailable"}</span>
+      <span>· {status.fallback ? FALLBACK_TEXT[status.fallback] : `${identity.agentName} unavailable`}</span>
     </span>
   );
 }
@@ -378,7 +368,6 @@ export default function AgentPanel() {
   const waitingForFirstEvent = status === "submitted" && last?.role === "user";
   const asked = new Set(messages.filter((msg) => msg.role === "user").map((msg) => textOf(msg).toLowerCase()));
   const lastTrace = last?.role === "assistant" ? traceOf(last) : null;
-  const lastModel = [...messages].reverse().map(traceOf).find((t) => t?.agent === "openrouter" && t.stage === "done")?.model ?? null;
   const suggestions = !busy && !code && lastTrace?.stage === "done" ? followUps(lastTrace.sources, asked) : [];
 
   const motionProps = reduced
@@ -430,7 +419,7 @@ export default function AgentPanel() {
                       Shakib&apos;s agent
                     </h2>
                     <div className="mt-0.5">
-                      <StatusPill status={agentStatus} lastModel={lastModel} />
+                      <StatusPill status={agentStatus} />
                     </div>
                   </div>
                 </div>
