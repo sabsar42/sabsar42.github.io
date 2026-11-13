@@ -1,106 +1,169 @@
+<div align="center">
+
+<img src="public/me.jpg" alt="Shakib Absar" width="96" height="96" />
+
 # Shakib Absar
 
-**AI/ML Engineer · Researcher · Software Developer**
+**I build agentic and multimodal AI systems that ship.**
 
-A portfolio about building agentic and multimodal AI systems that ship—and a live example of one. Explore selected work, research, shipped outcomes, and an AI agent that answers questions about my experience using the same structured content as the site.
+AI/ML Engineer · Researcher · Software Developer — Sylhet, Bangladesh (UTC+6)
 
-[Open the portfolio](https://sabsar42.github.io) · [Email](mailto:sabsar42@gmail.com) · [GitHub](https://github.com/sabsar42) · [LinkedIn](https://www.linkedin.com/in/shakib-absar-/)
+[![Website](https://img.shields.io/badge/website-sabsar42.github.io-ff6b1a?style=flat-square)](https://sabsar42.github.io)
+[![Email](https://img.shields.io/badge/email-sabsar42%40gmail.com-0a0a0a?style=flat-square&logo=gmail&logoColor=ff6b1a)](mailto:sabsar42@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-shakib--absar-0a0a0a?style=flat-square&logo=linkedin&logoColor=ff6b1a)](https://www.linkedin.com/in/shakib-absar-/)
+[![Google Scholar](https://img.shields.io/badge/Google%20Scholar-papers-0a0a0a?style=flat-square&logo=googlescholar&logoColor=ff6b1a)](https://scholar.google.com/citations?user=30nhEaIAAAAJ)
+[![Kaggle](https://img.shields.io/badge/Kaggle-datasets-0a0a0a?style=flat-square&logo=kaggle&logoColor=ff6b1a)](https://www.kaggle.com/shakibabsar42)
 
-![The quiet, dark hero of Shakib Absar's portfolio: a small circular profile photo near the bottom of the screen](docs/portfolio-hero.png)
+<br />
 
-## What you'll find
+<a href="https://sabsar42.github.io"><img src="docs/screenshots/01-hero.webp" alt="sabsar42.github.io: an empty screen, one photo, one hidden door to an AI agent" width="100%" /></a>
 
-- **A quiet, interactive homepage** with a photo that opens the AI agent, a live section navigator, and dark and light themes.
-- **A founder-style brief and proof of work** covering shipped products, production metrics, experience, and research.
-- **An agent workflow graphic** that explains planning, retrieval, vision tools, MCP servers, and evaluation.
-- **Selected projects** with interactive demos and live product previews, alongside a searchable command palette (`⌘K` / `Ctrl+K`).
-- **Research and recognition** presented as a publications index, research areas, awards, and leadership.
-- **Live profile activity** from GitHub, Google Scholar, Kaggle, and Hugging Face when those sources are available.
-- **An Open Channel** for project, consulting, and role inquiries, plus direct email and profile links.
+<a href="https://sabsar42.github.io"><img src="docs/screenshots/02-intro.webp" alt="sabsar42.github.io: the intro, with a direct message form" width="100%" /></a>
 
-## The on-site agent
+<sub>The empty hero is intentional: one photo, one hidden door to an AI agent. Scroll, and the work speaks.</sub>
 
-Ask questions about my work from the portrait, the navigation, or the command palette. The agent retrieves relevant sections from the site's content, streams its answer, and shows a trace with source chips that jump to the supporting section.
+</div>
 
-OpenRouter provides the primary model when configured. If it is unavailable—or the site is running as a static GitHub Pages build without a connected backend—a lightweight native agent answers from the same retrieved facts. This keeps the portfolio useful without model credentials and avoids making up unsupported details. The model key stays on the server; request validation and rate limits are applied to hosted chat.
+<br />
 
-## Tech
+## Open to
 
-- Next.js App Router and TypeScript
-- Tailwind CSS v4, CSS-variable design tokens, and `next/font`
-- Motion for small, reduced-motion-aware transitions
-- `cmdk` for the keyboard-accessible command palette
-- Vercel AI SDK with OpenRouter, Zod validation, and optional Upstash Redis rate limiting
-- GitHub Pages static export, with an optional hosted backend for model-powered chat and contact messages
+**Founding and early-stage AI engineering roles, consulting, and independent engagements.**
 
-## Run locally
+If you're building something that needs agents, vision, or a retrieval system that holds up in production, I'd like to hear about it.
+Write to **[sabsar42@gmail.com](mailto:sabsar42@gmail.com)**, or use the message form on **[sabsar42.github.io](https://sabsar42.github.io)** (you can even send it anonymously).
 
-Requirements: Node.js 22+ and npm.
+---
 
-```bash
-npm install
-npm run dev
-```
+## Impact, in numbers
 
-Copy `.env.example` to `.env.local` to configure the optional hosted services. The site and native agent can run without an OpenRouter key. Then open [http://localhost:3000](http://localhost:3000).
+Every figure below comes from shipped work or a published paper.
 
-Useful checks and builds:
+<a href="https://sabsar42.github.io/#proof"><img src="docs/screenshots/03-impact.webp" alt="Impact board: 50K checks per day, +15% mIoU, 10K+ documents, accuracy rings, research" width="100%" /></a>
 
-```bash
-npm run lint
-npm run build
-npm run build:pages
-```
-
-`npm run build:pages` writes a static export to `out/`.
-
-## Configuration
-
-| Variable | Purpose |
+| | |
 |---|---|
-| `OPENROUTER_API_KEY` | Server-side key for the primary agent model. Without it, the native agent remains available. |
-| `OPENROUTER_MODEL` | OpenRouter model ID; defaults to `openrouter/auto`. |
-| `OPENROUTER_BASE_URL` | Optional provider URL override for testing. |
-| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Shared rate limiting for a hosted, serverless deployment. Without these, the server uses an in-memory fallback. |
-| `CHAT_RATE_LIMIT_PER_HOUR` | Hourly primary-model message limit; defaults to 20. |
-| `NATIVE_RATE_LIMIT_PER_HOUR` | Hourly native-agent message limit; defaults to 60. |
-| `NEXT_PUBLIC_SITE_URL` | Canonical site URL used for metadata and sitemap generation. |
-| `NEXT_PUBLIC_API_BASE` | Optional hosted backend origin for static builds. Leave empty to use the native agent and email fallback. |
-| `CONTACT_FORM_ENDPOINT` | Optional form service or webhook for Open Channel messages. |
-| `ALLOWED_ORIGINS` | Allowed browser origins for a hosted backend; comma-separated. |
+| **50K** checks per day | AI content moderation in production, **85%+ precision**, under **300 ms** average response |
+| **−60%** manual review | Human-in-the-loop queue routes only low-confidence cases to moderators |
+| **+15% mIoU** | LoRA fine-tuning of SAM3 and IBM Prithvi-2 (300M) for satellite segmentation, training only **0.1%** of parameters |
+| **10K+ documents** | Production RAG with GPT-4 and LangChain, hybrid keyword (BM25) and dense retrieval |
+| **97.1% · 94.2% · 92% · 90.97%** | NSFW image model · hate-speech model · prescription OCR · Dice score for TFFM at WACV |
+| **11 papers** | Published, accepted, or under review |
 
-## Deploy
+---
 
-### GitHub Pages
+## What I build
 
-The GitHub Actions workflow builds and deploys the static site to [sabsar42.github.io](https://sabsar42.github.io) on pushes to `main`; it can also be run manually. The export contains no server code or API secrets. With no backend configured, the native agent runs in the browser and the contact form offers email instead.
+- **Agentic systems.** Multi-agent workflows with LangGraph, LangChain, and MCP, grounded with RAG and checked by automated evaluation, so changes can be compared instead of guessed at.
+- **Vision and multimodal AI.** Foundation-model adaptation (SAM, Prithvi, CLIP), vision-language search, segmentation, and medical imaging.
+- **Products, end to end.** FastAPI and Docker backends through Next.js and Flutter front ends, shipped for real users.
 
-For model-powered chat and form delivery, deploy the app to a server-capable host such as Vercel, then add its URL as the `API_BASE` repository variable for the Pages workflow. The workflow passes it into the static build as `NEXT_PUBLIC_API_BASE`.
+---
 
-### Vercel
+## Client work
 
-Import the repository and configure the desired server environment variables above. OpenRouter and Upstash are optional for local development; configure them in production for the hosted model and shared rate limits.
+Four case files, each with the brief, what was built, and the measured result.
 
-## Updating the site
+<a href="https://sabsar42.github.io/#clients"><img src="docs/screenshots/04-client-work.webp" alt="Case files: agentic geospatial mapping, satellite segmentation, content moderation, production RAG" width="100%" /></a>
 
-[`lib/content.ts`](lib/content.ts) is the source of truth for site content and the agent's knowledge. Update the identity, experience, projects, publications, stack, news, or suggested questions there.
+| Case | For | What was built | Result |
+|---|---|---|---|
+| **Agentic geospatial risk and hazard mapping** | UK clients, via Indetechs · TVS | A LangGraph multi-agent system with a self-hosted Qwen 3B planner, MCP-exposed geospatial tools, a RAG layer over domain documents, and an automated evaluator for end-to-end runs | Hazard assessments grounded in retrieved evidence; every workflow change measurable |
+| **Satellite segmentation with foundation models** | UK clients, via Indetechs · TVS | LoRA fine-tuning of SAM3 and Prithvi-2, plus **GeoSeg VLM**: CLIP-indexed orthophotos, SAM-2 masks, served as FastAPI services in Docker | **+15% mIoU**, 0.1% of parameters trained, **50,000+** orthophotos searchable in plain language |
+| **Real-time AI content moderation** | Fadlun, London | Text and image moderation for hate speech, harassment, and NSFW content, with a human-in-the-loop queue and retraining loop | **50K checks/day**, **−60%** manual review, 85%+ precision, < 300 ms |
+| **Production RAG** | Headstarter AI, New York | GPT-4 + LangChain over a 10K+ document store with hybrid retrieval; 5+ full-stack AI apps shipped in weekly sprints | **10K+** documents; hackathon finalist, top 5% of 200+ teams |
 
-- Set `identity.now` and `identity.lastUpdated` when updating the current focus or footer date.
-- Add a CV under `public/` and set `identity.cvPath` to enable its download link.
-- The GeoSeg demo currently uses an illustrative schematic. Add the aerial image and transparent masks described by `geosegDemo`, then set `assetsReady` to `true` to use the real assets.
-- Add LinkedIn post URLs to `linkedinPosts` to populate the embedded-post section.
-- Refresh the profile photo or project and institution images in `public/` as needed.
+---
 
-## Project layout
+## Selected work
 
-```text
-app/                 Page shell, metadata, and application entry points
-components/           Portfolio sections, interactive demos, agent, and palette
-lib/content.ts        Shared content model for the site and agent
-lib/knowledge/        Content chunking and keyword-based retrieval
-lib/agent/            Agent prompts, fallback behavior, and shared types
-public/               Profile photo, project previews, and institution marks
-scripts/              Photo preparation, icon generation, and Pages build
-docs/portfolio-hero.png
-                     The single portfolio screenshot used above
-```
+<a href="https://sabsar42.github.io/#work"><img src="docs/screenshots/05-projects.webp" alt="Selected work: live SpeakMock product inside the page" width="100%" /></a>
+
+| Project | What it is | Links |
+|---|---|---|
+| **SpeakMock** | Live IELTS speaking platform: an AI mock test with an AI examiner (about 15 minutes, band score on 4 criteria, written feedback), plus booking for human-examiner sessions with magic-link pages and an admin dashboard | [Live](https://speakmock.vercel.app) · [Code](https://github.com/sabsar42/SpeakMock) |
+| **Mindreva** | Voice journaling in English, Bangla, and Urdu: talk it out and it becomes a readable journal entry | [Live](https://mindreva-web.vercel.app) · [Code](https://github.com/sabsar42/mindreva) |
+| **GeoSeg VLM** | Text-prompted segmentation of aerial and satellite imagery: CLIP finds regions in plain language, SAM-2 turns them into masks | Built at Indetechs / TVS |
+| **Content Guardian** | Multimodal moderation app: BERT hate-speech detection at **94.2%** and an adversarially trained NSFW image model at **97.1%** | [Code](https://github.com/sabsar42/content_safeguard) · [Demo](https://www.youtube.com/watch?v=YzBwc_2c2Eg) |
+| **Digi-Pharma** | Reads prescriptions with OCR at **92%** extraction accuracy, then structures them with Gemini and a medical knowledge graph | [Code](https://github.com/sabsar42/digital_pharmacist_v2) |
+
+---
+
+## Research
+
+Research in vision-language models, medical imaging, and agent safety, with datasets released openly.
+
+- **TFFM**: Topology-Aware Feature Fusion Module via Latent Graph Reasoning for Retinal Vessel Segmentation. *WACV 2026 Workshops (P2P-CV), oral.* [Project](https://tffm-module.github.io/)
+- **TFFM+**: Spatially-Aware Dynamic Graph Fusion for Topology-Preserving Retinal Vessel Segmentation. *BD-MedVis Workshop @ BMVC 2026, accepted.*
+- **A Freshwater Fish Dataset for Visual Recognition** with manually localized ROIs and SAM-derived instance masks. *Scientific Data, 2026.* [Paper](https://www.nature.com/articles/s41597-026-07552-1)
+- **ViT-SAGE Hybrid**: Transformer patch embeddings with graph neural network aggregation for kidney CT classification. *IEEE COMPAS 2025.* [Paper](https://ieeexplore.ieee.org/document/11381879)
+- **Do LLM Agents Follow Therapeutic Boundaries?** Evaluating cross-system drug substitution hallucination. *AAAI 2026 Workshop, accepted.*
+
+Plus the BDMedData dataset (*Scientific Data*, accepted), U-Net variants for orthopantomogram segmentation (*IEEE BECITHCON 2025*), and an explainable ensemble for kidney disease diagnosis (*AAIML 2025*). Full list on [Google Scholar](https://scholar.google.com/citations?user=30nhEaIAAAAJ).
+
+<a href="https://sabsar42.github.io/#news"><img src="docs/screenshots/06-news.webp" alt="News feed: latest papers, products, and milestones" width="100%" /></a>
+
+---
+
+## Experience
+
+| When | Role | Where |
+|---|---|---|
+| May 2025 – present | **AI/ML Engineer** | Indetechs Software · Technovative Solutions (TVS), remote for UK clients |
+| Mar 2025 – present | **Research Intern**, MIRA Wing | Center for Computational and Data Sciences (CCDS), Dhaka |
+| Sep 2023 – present | **Research Assistant** | InteX Research Lab, Sylhet |
+| Nov 2024 – Mar 2025 | **Software Developer Intern (AI)** | Fadlun, London (remote) |
+| Jul – Sep 2024 | **AI Engineering Fellow** | Headstarter AI, New York (remote) |
+
+**Education:** B.Sc. in Computer Science and Engineering, Leading University, Sylhet, 2021–2025. CGPA **3.90 / 4.00**. Thesis: ViT-SAGE Hybrid for kidney CT classification (IEEE COMPAS 2025).
+
+---
+
+## Recognition
+
+- **IEEEXtreme 18.0 (2024):** 9th in Bangladesh, 1,282nd globally among 10,000+ teams
+- **NASA Space Apps Challenge 2024:** Global Nominee (team ORBITUS), top 947 of 9,900+ teams
+- **Collaborative AI Hackathon by SJ Innovation (2024):** 2nd Runner-Up
+- **Headstarter AI Hiring Hackathon (2024):** Finalist, top 5% of 200+ teams
+- **Leading University ACM:** Coder of the Month (2023), 1,000+ competitive programming problems solved
+- **Chairperson**, IEEE Computer Society LU Student Branch (2024–2025)
+
+---
+
+## Stack
+
+| | |
+|---|---|
+| **Agentic AI** | LangGraph · LangChain · MCP · multi-agent systems · RAG · agent evaluation · vector databases |
+| **Vision and multimodal** | VLMs · CLIP · DINO · SAM3 · SAM-2 · Vision Transformers · OCR |
+| **Machine learning** | PyTorch · TensorFlow · Hugging Face Transformers · scikit-learn · OpenCV · LoRA / QLoRA · PEFT · explainable AI |
+| **Backend and deployment** | Python · TypeScript · FastAPI · Node.js · Next.js · Supabase · Docker · Vercel |
+
+---
+
+## Meet the site's agent
+
+My site has its own AI agent, **rasbaris-si**. Ask it about my work and it answers only from what's on the site, shows exactly which parts it used, and says so when it doesn't know. If it ever goes offline, a built-in native agent takes over.
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/08-agent.webp" alt="rasbaris-si answering a question with sources" /></td>
+<td width="50%"><img src="docs/screenshots/07-island-nav.webp" alt="Floating navigation pill with section shortcuts" /></td>
+</tr>
+<tr>
+<td align="center"><sub>Click my photo on the site to open it.</sub></td>
+<td align="center"><sub>Press <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>K</kbd> anywhere to jump around.</sub></td>
+</tr>
+</table>
+
+---
+
+<div align="center">
+
+### Let's build something that ships.
+
+**[sabsar42@gmail.com](mailto:sabsar42@gmail.com)** · **[sabsar42.github.io](https://sabsar42.github.io)**
+
+<sub>Developer notes live in [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).</sub>
+
+</div>
