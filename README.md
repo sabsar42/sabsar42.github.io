@@ -1,67 +1,106 @@
-# shakibabsar — personal site with a built-in AI agent
+# Shakib Absar
 
-Next.js 16 (App Router) · TypeScript · Tailwind v4 · Vercel AI SDK + OpenRouter · cmdk · Motion (lazy).
+**AI/ML Engineer · Researcher · Software Developer**
+
+A portfolio about building agentic and multimodal AI systems that ship—and a live example of one. Explore selected work, research, shipped outcomes, and an AI agent that answers questions about my experience using the same structured content as the site.
+
+[Open the portfolio](https://sabsar42.github.io) · [Email](mailto:sabsar42@gmail.com) · [GitHub](https://github.com/sabsar42) · [LinkedIn](https://www.linkedin.com/in/shakib-absar-/)
+
+![The quiet, dark hero of Shakib Absar's portfolio: a small circular profile photo near the bottom of the screen](docs/portfolio-hero.png)
+
+## What you'll find
+
+- **A quiet, interactive homepage** with a photo that opens the AI agent, a live section navigator, and dark and light themes.
+- **A founder-style brief and proof of work** covering shipped products, production metrics, experience, and research.
+- **An agent workflow graphic** that explains planning, retrieval, vision tools, MCP servers, and evaluation.
+- **Selected projects** with interactive demos and live product previews, alongside a searchable command palette (`⌘K` / `Ctrl+K`).
+- **Research and recognition** presented as a publications index, research areas, awards, and leadership.
+- **Live profile activity** from GitHub, Google Scholar, Kaggle, and Hugging Face when those sources are available.
+- **An Open Channel** for project, consulting, and role inquiries, plus direct email and profile links.
+
+## The on-site agent
+
+Ask questions about my work from the portrait, the navigation, or the command palette. The agent retrieves relevant sections from the site's content, streams its answer, and shows a trace with source chips that jump to the supporting section.
+
+OpenRouter provides the primary model when configured. If it is unavailable—or the site is running as a static GitHub Pages build without a connected backend—a lightweight native agent answers from the same retrieved facts. This keeps the portfolio useful without model credentials and avoids making up unsupported details. The model key stays on the server; request validation and rate limits are applied to hosted chat.
+
+## Tech
+
+- Next.js App Router and TypeScript
+- Tailwind CSS v4, CSS-variable design tokens, and `next/font`
+- Motion for small, reduced-motion-aware transitions
+- `cmdk` for the keyboard-accessible command palette
+- Vercel AI SDK with OpenRouter, Zod validation, and optional Upstash Redis rate limiting
+- GitHub Pages static export, with an optional hosted backend for model-powered chat and contact messages
 
 ## Run locally
 
+Requirements: Node.js 22+ and npm.
+
 ```bash
 npm install
-cp .env.example .env.local   # add OPENROUTER_API_KEY
-npm run dev                  # http://localhost:3000
-npm run build && npm run lint
+npm run dev
 ```
 
-Without `OPENROUTER_API_KEY` the site works, and the agent panel shows its "model isn't responding" state.
+Copy `.env.example` to `.env.local` to configure the optional hosted services. The site and native agent can run without an OpenRouter key. Then open [http://localhost:3000](http://localhost:3000).
 
-## Environment
+Useful checks and builds:
 
-| Variable | Required | Notes |
-|---|---|---|
-| `OPENROUTER_API_KEY` | yes (prod) | Server only. Never sent to the browser. |
-| `OPENROUTER_MODEL` | no | Defaults to `anthropic/claude-haiku-5.5`. |
-| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | yes (prod) | Rate limiting. Without them an in-memory limiter is used (per instance; fine locally, not on serverless). |
-| `CHAT_RATE_LIMIT_PER_HOUR` | no | Default 20 messages per IP per hour. |
-| `NEXT_PUBLIC_SITE_URL` | no | Canonical URL for metadata, sitemap, robots, OG. Defaults to `https://shakibabsar.vercel.app`. |
-| `OPENROUTER_BASE_URL` | no | Testing only (point at a local mock). Leave empty in production. |
+```bash
+npm run lint
+npm run build
+npm run build:pages
+```
 
-## Editing content
+`npm run build:pages` writes a static export to `out/`.
 
-Everything (site **and** agent knowledge) comes from [`lib/content.ts`](lib/content.ts).
+## Configuration
 
-- "Now" line: `identity.now`
-- Footer date: `identity.lastUpdated`
-- CV: put the PDF in `public/` and set `identity.cvPath` (the Download CV link and palette command appear automatically)
-- GeoSeg demo: add the files listed in `geosegDemo`, then set `assetsReady: true`
-- Live embeds: set `embed` on a project (`site`, `phone`, or `video`). Posters live in `public/projects/`. To let Mindreva run inside the page, allow this site in its `frame-ancestors` CSP and set `framable: true`.
+| Variable | Purpose |
+|---|---|
+| `OPENROUTER_API_KEY` | Server-side key for the primary agent model. Without it, the native agent remains available. |
+| `OPENROUTER_MODEL` | OpenRouter model ID; defaults to `openrouter/auto`. |
+| `OPENROUTER_BASE_URL` | Optional provider URL override for testing. |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Shared rate limiting for a hosted, serverless deployment. Without these, the server uses an in-memory fallback. |
+| `CHAT_RATE_LIMIT_PER_HOUR` | Hourly primary-model message limit; defaults to 20. |
+| `NATIVE_RATE_LIMIT_PER_HOUR` | Hourly native-agent message limit; defaults to 60. |
+| `NEXT_PUBLIC_SITE_URL` | Canonical site URL used for metadata and sitemap generation. |
+| `NEXT_PUBLIC_API_BASE` | Optional hosted backend origin for static builds. Leave empty to use the native agent and email fallback. |
+| `CONTACT_FORM_ENDPOINT` | Optional form service or webhook for Open Channel messages. |
+| `ALLOWED_ORIGINS` | Allowed browser origins for a hosted backend; comma-separated. |
 
-- LinkedIn posts: paste post URLs into `linkedinPosts` (any "Copy link to post" URL works); they embed in the Elsewhere section
-- News: `news` (newest first; the first item is featured)
-- Institution logos: `marks` (files in `public/logos/`)
+## Deploy
 
-The photo assets are generated from `shakib-absar.jpeg` with `npm run photo`. Tool and platform icons are copied from simple-icons into `lib/brand-icons.ts` with `npm run icons` (edit the list in `scripts/gen-icons.mjs`).
+### GitHub Pages
 
-Live data (refreshed every 12 hours, falls back to plain links if a site is unreachable): GitHub contributions and repos (`lib/github.ts`), Google Scholar, Kaggle and Hugging Face (`lib/profiles.ts`).
+The GitHub Actions workflow builds and deploys the static site to [sabsar42.github.io](https://sabsar42.github.io) on pushes to `main`; it can also be run manually. The export contains no server code or API secrets. With no backend configured, the native agent runs in the browser and the contact form offers email instead.
 
-## Open Channel (contact form)
+For model-powered chat and form delivery, deploy the app to a server-capable host such as Vercel, then add its URL as the `API_BASE` repository variable for the Pages workflow. The workflow passes it into the static build as `NEXT_PUBLIC_API_BASE`.
 
-Set `CONTACT_FORM_ENDPOINT` to your form backend's POST URL (Formspree, Web3Forms, Getform, a Zapier/Make webhook…). Messages are validated and forwarded server-side as JSON (`intent`, `message`, `anonymous`, `name`, `email`, plus `_replyto`/`_subject` for services that use them). To change the payload shape for a specific service, edit `app/api/contact/route.ts`. Until the variable is set, the form tells visitors it isn't connected and offers a prefilled email.
+### Vercel
 
-## How the agent works
+Import the repository and configure the desired server environment variables above. OpenRouter and Upstash are optional for local development; configure them in production for the hosted model and shared rate limits.
 
-1. `lib/knowledge/chunks.ts` flattens `content.ts` into ~30 chunks (one per role, project, publication, …), each linked to a DOM id.
-2. `lib/knowledge/bm25.ts` scores chunks with BM25 plus a small synonym map. Top 5 (thresholded) go to the model.
-3. `app/api/chat/route.ts` validates with zod (≤500 chars per user message, ≤10 messages), rate-limits per IP, then streams real trace events (`understood → retrieved N sources → writing → done`) followed by the answer.
-4. If OpenRouter is down, out of credit, or the visitor has used their hourly model budget, the **native agent** answers instead: it quotes the best-matching sentences from the same retrieved facts (no LLM, so it cannot invent). The panel header shows which agent is live (`GET /api/agent/status`), and each answer says who wrote it.
-5. The panel renders the trace with clickable source chips that close the panel and scroll to the exact entry.
+## Updating the site
 
-## Deploying
+[`lib/content.ts`](lib/content.ts) is the source of truth for site content and the agent's knowledge. Update the identity, experience, projects, publications, stack, news, or suggested questions there.
 
-**Vercel (full app).** Import the repo, set the env vars from `.env.example`. This hosts the pages *and* the API (agent, status, contact form).
+- Set `identity.now` and `identity.lastUpdated` when updating the current focus or footer date.
+- Add a CV under `public/` and set `identity.cvPath` to enable its download link.
+- The GeoSeg demo currently uses an illustrative schematic. Add the aerial image and transparent masks described by `geosegDemo`, then set `assetsReady` to `true` to use the real assets.
+- Add LinkedIn post URLs to `linkedinPosts` to populate the embedded-post section.
+- Refresh the profile photo or project and institution images in `public/` as needed.
 
-**GitHub Pages (sabsar42.github.io).** GitHub Pages serves static files only, so the Pages build (`npm run build:pages` -> `out/`) contains no server code and no secrets. The agent and contact form call your Vercel deployment instead:
+## Project layout
 
-1. Deploy this repo to Vercel (above). It already allows https://sabsar42.github.io via CORS (`ALLOWED_ORIGINS`).
-2. In the GitHub repo: Settings > Secrets and variables > Actions > Variables > add `API_BASE` = your Vercel URL.
-3. Settings > Pages > Source = **GitHub Actions**, then run the "Deploy to GitHub Pages" workflow.
-
-If `API_BASE` is empty, or Vercel is down, the Pages site still works: the agent answers in the browser as the Native Agent and the contact form offers a prefilled email.
+```text
+app/                 Page shell, metadata, and application entry points
+components/           Portfolio sections, interactive demos, agent, and palette
+lib/content.ts        Shared content model for the site and agent
+lib/knowledge/        Content chunking and keyword-based retrieval
+lib/agent/            Agent prompts, fallback behavior, and shared types
+public/               Profile photo, project previews, and institution marks
+scripts/              Photo preparation, icon generation, and Pages build
+docs/portfolio-hero.png
+                     The single portfolio screenshot used above
+```
