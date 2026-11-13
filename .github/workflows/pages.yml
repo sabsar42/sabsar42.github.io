@@ -1,0 +1,49 @@
+name: Deploy to GitHub Pages
+
+# Manual (and on pushes to dev-v01 once Pages is switched to "GitHub Actions").
+# Pages > Build and deployment > Source must be "GitHub Actions" for the deploy step to take effect.
+on:
+  workflow_dispatch:
+  push:
+    branches: [dev-v01]
+  schedule:
+    # Refresh the live GitHub / Scholar / Kaggle numbers (scheduled runs only fire on the default branch).
+    - cron: "0 */12 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build:pages
+        env:
+          NEXT_PUBLIC_SITE_URL: https://sabsar42.github.io
+          # Repository variable: your Vercel deployment URL, e.g. https://your-project.vercel.app
+          NEXT_PUBLIC_API_BASE: ${{ vars.API_BASE }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

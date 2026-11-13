@@ -1,0 +1,55 @@
+import type { Domain } from "./content";
+
+/** Static class names per domain (Tailwind needs literal strings). */
+export const dom = {
+  agent: {
+    text: "text-agent",
+    bg: "bg-agent",
+    soft: "bg-agent/10",
+    softer: "bg-agent/5",
+    border: "border-agent/35",
+    ring: "ring-agent/40",
+    hoverBorder: "hover:border-agent/60",
+    var: "var(--c-agent)",
+  },
+  vision: {
+    text: "text-vision",
+    bg: "bg-vision",
+    soft: "bg-vision/10",
+    softer: "bg-vision/5",
+    border: "border-vision/35",
+    ring: "ring-vision/40",
+    hoverBorder: "hover:border-vision/60",
+    var: "var(--c-vision)",
+  },
+  research: {
+    text: "text-research",
+    bg: "bg-research",
+    soft: "bg-research/10",
+    softer: "bg-research/5",
+    border: "border-research/35",
+    ring: "ring-research/40",
+    hoverBorder: "hover:border-research/60",
+    var: "var(--c-research)",
+  },
+  ship: {
+    text: "text-ship",
+    bg: "bg-ship",
+    soft: "bg-ship/10",
+    softer: "bg-ship/5",
+    border: "border-ship/35",
+    ring: "ring-ship/40",
+    hoverBorder: "hover:border-ship/60",
+    var: "var(--c-ship)",
+  },
+  data: {
+    text: "text-data",
+    bg: "bg-data",
+    soft: "bg-data/10",
+    softer: "bg-data/5",
+    border: "border-data/35",
+    ring: "ring-data/40",
+    hoverBorder: "hover:border-data/60",
+    var: "var(--c-data)",
+  },
+} as const satisfies Record<Domain, Record<string, string>>;
