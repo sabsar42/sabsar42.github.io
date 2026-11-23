@@ -70,32 +70,6 @@
   color-scheme: dark;
 }
 
-/* Before JS sets data-theme, follow the system (dark-first). */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --bg: #0a0a0a;
-    --bg-raised: #111111;
-    --bg-hover: #171717;
-    --line: #1f1f1f;
-    --line-strong: #2e2e2e;
-    --fg: #ededed;
-    --fg-muted: #a1a1a1;
-    --fg-faint: #8a8a8a;
-    --accent: #ff7a45;
-    --accent-soft: rgb(255 122 69 / 0.12);
-    --accent-fg: #0a0a0a;
-    --live: #3fd37a;
-    --c-agent: #ff7a45;
-    --c-vision: #38bdf8;
-    --c-research: #a78bfa;
-    --c-ship: #4ade80;
-    --c-data: #fbbf24;
-    --c-pink: #f472b6;
-    --scrim: rgb(0 0 0 / 0.55);
-    color-scheme: dark;
-  }
-}
-
 @theme inline {
   --color-bg: var(--bg);
   --color-raised: var(--bg-raised);

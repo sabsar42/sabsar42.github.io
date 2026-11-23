@@ -19,7 +19,7 @@ export function Intro() {
   const meta = [identity.name, identity.shortTitle, identity.location, <LocalClock key="clock" />];
 
   return (
-    <section id="about" suppressHydrationWarning aria-label="About" className="pb-14 pt-12 md:pb-20 md:pt-16">
+    <section id="about" suppressHydrationWarning aria-label="About" className="pb-14 pt-6 md:pb-20 md:pt-10">
       <div className="container-x grid gap-10 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start xl:gap-14">
         <div className="min-w-0">
         <p className="reveal max-w-[22ch] font-serif text-display text-fg sm:max-w-[24ch]">
