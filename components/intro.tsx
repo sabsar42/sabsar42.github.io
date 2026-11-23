@@ -22,7 +22,7 @@ export function Intro() {
     <section id="about" suppressHydrationWarning aria-label="About" className="pb-14 pt-6 md:pb-20 md:pt-10">
       <div className="container-x grid gap-10 lg:grid-cols-[minmax(0,1fr)_400px] lg:items-start xl:gap-14">
         <div className="min-w-0">
-        <p className="reveal max-w-[22ch] font-serif text-display text-fg sm:max-w-[24ch]">
+        <p className="max-w-[22ch] font-serif text-display text-fg sm:max-w-[24ch]">
           {words.map((w, i) => {
             const key = w.replace(/[^a-z]/gi, "").toLowerCase();
             const h = statementHighlights[key];
@@ -55,7 +55,7 @@ export function Intro() {
         <div
           id="statement-proof"
           aria-live="polite"
-          className={`reveal mt-8 max-w-[640px] rounded-(--r-md) border p-4 transition-colors duration-220 md:p-5 ${c.border} ${c.softer}`}
+          className={`mt-8 max-w-[640px] rounded-(--r-md) border p-4 transition-colors duration-220 md:p-5 ${c.border} ${c.softer}`}
           style={{ "--i": 1 } as CSSProperties}
         >
           <div className="flex items-center justify-between gap-4">
@@ -96,7 +96,7 @@ export function Intro() {
         </div>
 
         <ul
-          className="reveal label mt-10 flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-y-2"
+          className="label mt-10 flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-y-2"
           style={{ "--i": 2 } as CSSProperties}
         >
           {meta.map((item, i) => (
@@ -112,12 +112,12 @@ export function Intro() {
           </li>
         </ul>
 
-        <p className="reveal mt-6 flex items-baseline gap-3" style={{ "--i": 3 } as CSSProperties}>
+        <p className="mt-6 flex items-baseline gap-3" style={{ "--i": 3 } as CSSProperties}>
           <span className="label shrink-0 rounded-[4px] border border-agent/40 bg-agent/10 px-1.5 py-0.5 text-agent">Now</span>
           <span className="text-muted">{identity.now}</span>
         </p>
         </div>
-        <OpenChannel idPrefix="intro" className="reveal hidden lg:block" />
+        <OpenChannel idPrefix="intro" className="hidden lg:block" />
       </div>
     </section>
   );

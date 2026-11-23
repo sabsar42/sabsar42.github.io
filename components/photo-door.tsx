@@ -12,7 +12,7 @@ export function PhotoDoor() {
   const { openAgent, preloadAgent } = useSite();
 
   return (
-    <div className="absolute bottom-[calc(28px+env(safe-area-inset-bottom))] left-1/2 flex -translate-x-1/2 flex-col items-center md:bottom-10">
+    <div className="relative flex flex-col items-center">
       <button
         type="button"
         onClick={() => openAgent()}
